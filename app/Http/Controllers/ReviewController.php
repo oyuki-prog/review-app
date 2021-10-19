@@ -6,6 +6,7 @@ use App\Models\Image;
 use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ReviewRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
 {
@@ -48,13 +49,12 @@ class ReviewController extends Controller
             if ($files = $request->file('image')) {
                 foreach ($files as $file) {
                     $fileName = time() . $file->getClientOriginalName();
-                    $target_path = storage_path('app/public/reviews');
-                    $file->move($target_path, $fileName);
+                    $path = Storage::putFileAs('reviews', $file, $fileName);
 
                     //新たな画像レコードを作成
                     $image = new Image();
                     $image->review_id = $review->id;
-                    $image->name = $fileName;
+                    $image->name = basename($path);
                     $image->save();
                 }
             }

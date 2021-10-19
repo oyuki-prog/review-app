@@ -11,7 +11,7 @@
         @include('partial.flash')
         @include('partial.errors')
         <div class="mb-8">
-            <h2 class="text-2xl">{{ $review->title }}</h2>
+            <h2 class="text-2xl block mb-4">{{ $review->title }}</h2>
             <p>{!! nl2br(e($review->body)) !!}</p>
         </div>
         <div class="flex justify-end">
