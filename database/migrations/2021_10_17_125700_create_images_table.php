@@ -19,7 +19,7 @@ class CreateImagesTable extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->string('image');
+            $table->string('name');
             $table->timestamps();
         });
     }

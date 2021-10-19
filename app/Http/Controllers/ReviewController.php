@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Review;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ReviewRequest;
 
 class ReviewController extends Controller
 {
@@ -14,7 +16,8 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        $reviews = Review::with('images')->latest()->paginate(10);
+        return view('reviews.index', compact('reviews'));
     }
 
     /**
@@ -24,18 +27,48 @@ class ReviewController extends Controller
      */
     public function create()
     {
-        //
+        return view('reviews.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ReviewRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReviewRequest $request)
     {
-        //
+        // dd($request->file('image'));
+        $review = new Review($request->all());
+        $review->user_id = $request->user()->id;
+        DB::beginTransaction();
+        try {
+            $review->save();
+
+            if ($files = $request->file('image')) {
+                foreach ($files as $file) {
+                    $fileName = time() . $file->getClientOriginalName();
+                    $target_path = storage_path('app/public/reviews');
+                    $file->move($target_path, $fileName);
+
+                    //新たな画像レコードを作成
+                    $image = new Image();
+                    $image->review_id = $review->id;
+                    $image->name = $fileName;
+                    $image->save();
+                }
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if($deleteFile = Image::where('review_id', $review->id)) {
+                $deleteFile->delete();
+            }
+            return back()->withErrors([$e->getMessage()]);
+        }
+
+        return redirect()->route('reviews.show', $review)->with(['flash_message' => '投稿に成功しました']);
     }
 
     /**
@@ -46,7 +79,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        //
+        return view('reviews.show', compact('review'));
     }
 
     /**
@@ -57,19 +90,26 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
-        //
+        return view('reviews.edit', compact('review'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ReviewRequest  $request
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(ReviewRequest $request, Review $review)
     {
-        //
+        $review->fill($request->all());
+        try {
+            $review->save();
+        } catch (\Exception $e) {
+            return back()->withErrors([$e->getMessage()]);
+        }
+
+        return redirect()->route('reviews.show', $review)->with(['flash_message' => '更新に成功しました']);
     }
 
     /**

@@ -14,7 +14,10 @@ class CreateIdentityProvidersTable extends Migration
     public function up()
     {
         Schema::create('identity_providers', function (Blueprint $table) {
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->string('provider');
             $table->string('id');
             $table->timestamps();

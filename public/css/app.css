@@ -32137,6 +32137,18 @@ select {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.masonry {
+  -moz-column-count: 2;
+       column-count: 2;
+  -moz-column-gap: 1.5em;
+       column-gap: 1.5em;
+}
+
+.break-inside {
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -63422,6 +63434,18 @@ select {
 
   .sm\:ease-in-out {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sm\:masonry {
+    -moz-column-count: 2;
+         column-count: 2;
+    -moz-column-gap: 1.5em;
+         column-gap: 1.5em;
+  }
+
+  .sm\:break-inside {
+    -moz-column-break-inside: avoid;
+         break-inside: avoid;
   }
 }
 
@@ -94711,6 +94735,18 @@ select {
   .md\:ease-in-out {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  .md\:masonry {
+    -moz-column-count: 2;
+         column-count: 2;
+    -moz-column-gap: 1.5em;
+         column-gap: 1.5em;
+  }
+
+  .md\:break-inside {
+    -moz-column-break-inside: avoid;
+         break-inside: avoid;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -125998,6 +126034,18 @@ select {
 
   .lg\:ease-in-out {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .lg\:masonry {
+    -moz-column-count: 2;
+         column-count: 2;
+    -moz-column-gap: 1.5em;
+         column-gap: 1.5em;
+  }
+
+  .lg\:break-inside {
+    -moz-column-break-inside: avoid;
+         break-inside: avoid;
   }
 }
 
@@ -157287,6 +157335,18 @@ select {
   .xl\:ease-in-out {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  .xl\:masonry {
+    -moz-column-count: 2;
+         column-count: 2;
+    -moz-column-gap: 1.5em;
+         column-gap: 1.5em;
+  }
+
+  .xl\:break-inside {
+    -moz-column-break-inside: avoid;
+         break-inside: avoid;
+  }
 }
 
 @media (min-width: 1536px) {
@@ -188574,6 +188634,18 @@ select {
 
   .\32xl\:ease-in-out {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .\32xl\:masonry {
+    -moz-column-count: 2;
+         column-count: 2;
+    -moz-column-gap: 1.5em;
+         column-gap: 1.5em;
+  }
+
+  .\32xl\:break-inside {
+    -moz-column-break-inside: avoid;
+         break-inside: avoid;
   }
 }
 

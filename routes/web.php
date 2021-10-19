@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ReviewController;
+use App\Models\Review;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,14 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ReviewController::class, 'index'])
+    ->name('root');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::resource('reviews', ReviewController::class);
+Route::resource('reviews', ReviewController::class)
+    ->middleware('auth')
+    ->only(['create', 'edit', 'store', 'update', 'destroy']);
+
+Route::resource('reviews', ReviewController::class)
+    ->only(['index', 'show']);
 
 require __DIR__.'/auth.php';
