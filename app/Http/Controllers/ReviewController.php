@@ -6,6 +6,7 @@ use App\Models\Image;
 use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ReviewRequest;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
@@ -120,6 +121,15 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        //
+        $images = $review->images;
+        $review->delete();
+
+        foreach($images as $image) {
+            Storage::delete('reviews/' . $image->name);
+        }
+
+        return redirect()
+            ->route('reviews.index')
+            ->with(['flash_message' => '記事を削除しました']);
     }
 }
