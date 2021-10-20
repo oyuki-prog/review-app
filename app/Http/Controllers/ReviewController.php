@@ -6,9 +6,7 @@ use App\Models\Image;
 use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ReviewRequest;
-use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
