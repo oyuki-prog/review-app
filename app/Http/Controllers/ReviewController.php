@@ -91,6 +91,12 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
+        if ($request->user()->cannot('update', $review)) {
+            return redirect()
+                ->route('reviews.show', $review)
+                ->withErrors('自分の記事以外は更新できません');
+        }
+
         return view('reviews.edit', compact('review'));
     }
 
@@ -103,6 +109,12 @@ class ReviewController extends Controller
      */
     public function update(ReviewRequest $request, Review $review)
     {
+        if ($request->user()->cannot('update', $review)) {
+            return redirect()
+                ->route('reviews.show', $review)
+                ->withErrors('自分の記事以外は更新できません');
+        }
+
         $review->fill($request->all());
         try {
             $review->save();

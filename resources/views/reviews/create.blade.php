@@ -1,10 +1,11 @@
 <x-app-layout>
 
     <div class="container mx-auto my-24">
-            @include('partial.flash')
-    @include('partial.errors')
+        @include('partial.flash')
+        @include('partial.errors')
         <div class="w-full">
-            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="{{ route('reviews.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="{{ route('reviews.store') }}"
+                method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
@@ -18,7 +19,8 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="body">
                         本文
                     </label>
-                    <textarea name="body" id="body" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40">{{ old('body') }}</textarea>
+                    <textarea name="body" id="body"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40">{{ old('body') }}</textarea>
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="image">
