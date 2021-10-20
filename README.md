@@ -14,6 +14,9 @@ https://docs.google.com/spreadsheets/d/1gMmlohTBSHsvUeyrgGHRdKkebSm_vylkzPnXA4fi
 ## SNS認証
 githubとgoogleでログイン、登録ができます
 
+## herokuデプロイ
+https://review-app-oyuki.herokuapp.com/
+
 ## スクリーンショット
 
 ### index
