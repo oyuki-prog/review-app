@@ -7,6 +7,8 @@ use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ReviewRequest;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
@@ -50,8 +52,8 @@ class ReviewController extends Controller
             if ($files = $request->file('image')) {
                 foreach ($files as $file) {
                     $fileName = time() . $file->getClientOriginalName();
+                    $paths[] = Storage::putFileAs('reviews', $file, $fileName);
                     $path = Storage::putFileAs('reviews', $file, $fileName);
-
                     //新たな画像レコードを作成
                     $image = new Image();
                     $image->review_id = $review->id;
@@ -59,12 +61,13 @@ class ReviewController extends Controller
                     $image->save();
                 }
             }
-
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            if($deleteFile = Image::where('review_id', $review->id)) {
-                $deleteFile->delete();
+            foreach ($paths as $path) {
+                if (!empty($path)) {
+                    Storage::delete($path);
+                }
             }
             return back()->withErrors([$e->getMessage()]);
         }
@@ -91,7 +94,7 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
-        if ($request->user()->cannot('update', $review)) {
+        if (Auth::user()->cannot('update', $review)) {
             return redirect()
                 ->route('reviews.show', $review)
                 ->withErrors('自分の記事以外は更新できません');
